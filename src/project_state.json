@@ -1,0 +1,95 @@
+{
+  "schemaVersion": "1.0.0",
+  "projectStateVersion": 3,
+  "summary": "Website for creative team management at an Amazon marketing agency. Tracks creative work with completion dates and Amazon upload dates. Allows uploading/viewing images of creatives. Requires classy, professional UI.",
+  "architectural_notes": [
+    "Website targeting creative team collaboration",
+    "Focus on Amazon marketing agency workflow",
+    "Two key dates per creative: completion date and Amazon upload date",
+    "Image upload and display capability required"
+  ],
+  "known_issues": [],
+  "isFixRequest": false,
+  "existing_features": [
+    {
+      "id": "feature-implement-image-upload-functionality-allowing-users-to-upload-creative-images-as-static-assets-storing-references-in-the-creative-project-records",
+      "title": "Implement image upload functionality allowing users to upload creative images as static assets, storing references in the creative project records",
+      "reqIds": [
+        "REQ-3"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-create-a-dashboard-view-displaying-all-creative-projects-in-a-grid-or-list-format-showing-title-both-dates-completion-and-amazon-upload-and-thumbnail-images",
+      "title": "Create a dashboard view displaying all creative projects in a grid or list format, showing title, both dates (completion and Amazon upload), and thumbnail images",
+      "reqIds": [
+        "REQ-4"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-implement-a-form-interface-to-add-new-creative-projects-with-fields-for-title-description-completion-date-amazon-upload-date-and-image-upload",
+      "title": "Implement a form interface to add new creative projects with fields for title, description, completion date, Amazon upload date, and image upload",
+      "reqIds": [
+        "REQ-5"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-implement-detailed-view-for-individual-creative-projects-showing-full-image-all-metadata-and-edit-delete-actions",
+      "title": "Implement detailed view for individual creative projects showing full image, all metadata, and edit/delete actions",
+      "reqIds": [
+        "REQ-6"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-design-and-implement-a-sophisticated-professional-visual-theme-with-elegant-typography-refined-color-palette-avoiding-blue-and-purple-refined-spacing-and-polished-ui-components-that-convey-professionalism-suitable-for-an-agency-setting",
+      "title": "Design and implement a sophisticated, professional visual theme with elegant typography, refined color palette (avoiding blue and purple), refined spacing, and polished UI components that convey professionalism suitable for an agency setting",
+      "reqIds": [
+        "REQ-7"
+      ],
+      "version": 1
+    }
+  ],
+  "new_feature_requests": [
+    {
+      "id": "AR-1",
+      "summary": "Track creatives with completion and Amazon upload dates",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-2",
+      "summary": "Upload and display creative images",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-3",
+      "summary": "Classy, professional UI design",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-4",
+      "summary": "Create a backend data model to store creative projects with fields: title, description, completion date, Amazon upload date, and associated image URLs",
+      "reqIds": [
+        "REQ-1"
+      ],
+      "status": "pending"
+    },
+    {
+      "id": "AR-5",
+      "summary": "Implement backend endpoints to create, read, update, and delete creative projects",
+      "reqIds": [
+        "REQ-2"
+      ],
+      "status": "pending"
+    }
+  ],
+  "gameProjectType": "none",
+  "projectName": "Creative Tracker",
+  "clarification_mode": "instant",
+  "clarification_rounds": 0
+}

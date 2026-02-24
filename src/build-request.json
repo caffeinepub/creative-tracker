@@ -1,0 +1,157 @@
+{
+  "kind": "build_request",
+  "title": "Create creative management system for Amazon marketing agency",
+  "projectName": "Creative Tracker",
+  "priority": "normal",
+  "requirements": [
+    {
+      "id": "REQ-1",
+      "text": "Create a backend data model to store creative projects with fields: title, description, completion date, Amazon upload date, and associated image URLs",
+      "target": "backend",
+      "source": {
+        "messageIds": [
+          "msg-1"
+        ],
+        "quotes": [
+          "i need to provide dates when the given creatives will be done and another date when it will be uploaded on amazon"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Data model includes all required fields for tracking creative projects",
+        "System can store and retrieve multiple creative projects",
+        "Dates are stored in a format that allows proper sorting and filtering"
+      ]
+    },
+    {
+      "id": "REQ-2",
+      "text": "Implement backend endpoints to create, read, update, and delete creative projects",
+      "target": "backend",
+      "source": {
+        "messageIds": [
+          "msg-1"
+        ],
+        "quotes": [
+          "i have to give a team what i have created till now"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Can add new creative projects with all metadata",
+        "Can retrieve list of all creative projects",
+        "Can update existing creative project details",
+        "Can delete creative projects"
+      ]
+    },
+    {
+      "id": "REQ-3",
+      "text": "Implement image upload functionality allowing users to upload creative images as static assets, storing references in the creative project records",
+      "target": "both",
+      "source": {
+        "messageIds": [
+          "msg-1"
+        ],
+        "quotes": [
+          "I also should be able to add images or creatives that i have made"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Users can upload image files through the interface",
+        "Uploaded images are stored as static assets in frontend/public/assets",
+        "Image references are associated with specific creative projects",
+        "Uploaded images can be viewed and displayed"
+      ]
+    },
+    {
+      "id": "REQ-4",
+      "text": "Create a dashboard view displaying all creative projects in a grid or list format, showing title, both dates (completion and Amazon upload), and thumbnail images",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-1"
+        ],
+        "quotes": [
+          "i have to give a team what i have created till now"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Dashboard displays all creative projects",
+        "Each project shows completion date and Amazon upload date clearly",
+        "Thumbnail images are visible for each project",
+        "Layout is organized and easy to scan"
+      ]
+    },
+    {
+      "id": "REQ-5",
+      "text": "Implement a form interface to add new creative projects with fields for title, description, completion date, Amazon upload date, and image upload",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-1"
+        ],
+        "quotes": [
+          "i need to provide dates when the given creatives will be done and another date when it will be uploaded on amazon",
+          "I also should be able to add images or creatives that i have made"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Form includes all required input fields",
+        "Date pickers are provided for both date fields",
+        "Image upload interface is intuitive",
+        "Form validates inputs before submission",
+        "Successfully added projects appear in the dashboard"
+      ]
+    },
+    {
+      "id": "REQ-6",
+      "text": "Implement detailed view for individual creative projects showing full image, all metadata, and edit/delete actions",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-1"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Clicking a project opens detailed view",
+        "Full-size creative image is displayed",
+        "All project metadata is visible",
+        "Edit and delete actions are available",
+        "Changes are reflected immediately in the dashboard"
+      ]
+    },
+    {
+      "id": "REQ-7",
+      "text": "Design and implement a sophisticated, professional visual theme with elegant typography, refined color palette (avoiding blue and purple), refined spacing, and polished UI components that convey professionalism suitable for an agency setting",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-1"
+        ],
+        "quotes": [
+          "i need the UI to be classy and good"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Visual design feels polished and professional",
+        "Typography choices are refined and readable",
+        "Color scheme is sophisticated and cohesive",
+        "Spacing and layout create a premium feel",
+        "UI components have consistent styling throughout"
+      ]
+    }
+  ],
+  "constraints": [
+    "Must use single-actor Motoko backend architecture",
+    "Cannot modify immutable frontend paths including hooks and UI components",
+    "Must use React, Tailwind CSS, and React Query for frontend"
+  ],
+  "nonGoals": [
+    "Integration with Amazon's actual API or services",
+    "User authentication or multi-user access control",
+    "Advanced image editing capabilities",
+    "Notification systems for date deadlines",
+    "Export functionality for reports"
+  ],
+  "imageRequirements": {
+    "required": [],
+    "edits": []
+  }
+}

@@ -1,0 +1,108 @@
+{
+  "kind": "feature_evidence_report",
+  "features": [
+    {
+      "featureId": "feature-implement-image-upload-functionality-allowing-users-to-upload-creative-images-as-static-assets-storing-references-in-the-creative-project-records",
+      "featureTitle": "Implement image upload functionality allowing users to upload creative images as static assets, storing references in the creative project records",
+      "files": [
+        "frontend/src/components/ImageUpload.tsx",
+        "frontend/src/components/ProjectForm.tsx"
+      ],
+      "components": [
+        "blob-storage@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-3"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-create-a-dashboard-view-displaying-all-creative-projects-in-a-grid-or-list-format-showing-title-both-dates-completion-and-amazon-upload-and-thumbnail-images",
+      "featureTitle": "Create a dashboard view displaying all creative projects in a grid or list format, showing title, both dates (completion and Amazon upload), and thumbnail images",
+      "files": [
+        "frontend/src/App.tsx",
+        "frontend/src/components/ProjectCard.tsx"
+      ],
+      "components": [
+        "blob-storage@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-4"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-implement-a-form-interface-to-add-new-creative-projects-with-fields-for-title-description-completion-date-amazon-upload-date-and-image-upload",
+      "featureTitle": "Implement a form interface to add new creative projects with fields for title, description, completion date, Amazon upload date, and image upload",
+      "files": [
+        "frontend/src/App.tsx",
+        "frontend/src/pages/CreateProjectPage.tsx"
+      ],
+      "components": [
+        "blob-storage@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-5"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-implement-detailed-view-for-individual-creative-projects-showing-full-image-all-metadata-and-edit-delete-actions",
+      "featureTitle": "Implement detailed view for individual creative projects showing full image, all metadata, and edit/delete actions",
+      "files": [
+        "frontend/src/App.tsx",
+        "frontend/src/pages/EditProjectPage.tsx",
+        "frontend/src/pages/ProjectDetailPage.tsx"
+      ],
+      "components": [
+        "blob-storage@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-6"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-design-and-implement-a-sophisticated-professional-visual-theme-with-elegant-typography-refined-color-palette-avoiding-blue-and-purple-refined-spacing-and-polished-ui-components-that-convey-professionalism-suitable-for-an-agency-setting",
+      "featureTitle": "Design and implement a sophisticated, professional visual theme with elegant typography, refined color palette (avoiding blue and purple), refined spacing, and polished UI components that convey professionalism suitable for an agency setting",
+      "files": [
+        "frontend/src/App.tsx",
+        "frontend/src/components/Layout.tsx",
+        "frontend/src/index.css",
+        "frontend/tailwind.config.js"
+      ],
+      "components": [
+        "blob-storage@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-7"
+      ],
+      "confidence": "high"
+    }
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "frontend/src/App.tsx": "Main application component that sets up TanStack Router with routes for dashboard, create, detail, and edit pages, wrapped in a Layout component with fixed naming conflict.",
+  "frontend/src/components/Layout.tsx": "Layout wrapper component providing consistent header with branding and navigation, login/logout controls, main content area with Outlet, and footer with attribution.",
+  "frontend/src/pages/Dashboard.tsx": "Dashboard page displaying all creative projects in a responsive grid using ProjectCard components, with empty state and loading states.",
+  "frontend/src/components/ProjectCard.tsx": "Card component displaying individual project summary with thumbnail image, title, description, completion date, and Amazon upload date with hover effects.",
+  "frontend/src/pages/CreateProjectPage.tsx": "Page for creating new creative projects, rendering ProjectForm with create mutation and navigation back to dashboard on success.",
+  "frontend/src/pages/EditProjectPage.tsx": "Page for editing existing projects, fetching project data and rendering ProjectForm pre-populated with current values, using update mutation.",
+  "frontend/src/pages/ProjectDetailPage.tsx": "Detailed project view showing full-size images, all metadata, formatted dates, and action buttons for edit and delete with confirmation dialog.",
+  "frontend/src/components/ProjectForm.tsx": "Reusable form component for creating and editing projects with fields for title, description, dates, and image upload, including validation.",
+  "frontend/src/components/ImageUpload.tsx": "Image upload component handling multiple file selection, preview display, upload progress tracking, and removal using ExternalBlob from blob-storage.",
+  "frontend/src/hooks/useQueries.ts": "Custom React Query hooks for all backend operations including getAllProjects, getProject, createProject, updateProject, and deleteProject with proper cache invalidation.",
+  "frontend/src/lib/utils.ts": "Utility functions including cn helper for merging Tailwind classes using clsx and tailwind-merge.",
+  "frontend/src/index.css": "Global styles with sophisticated earth-tone OKLCH color system for light and dark modes, custom Google Fonts (Playfair Display serif and Inter sans-serif), and base typography.",
+  "frontend/tailwind.config.js": "Tailwind configuration extending theme with custom color tokens, font families (Playfair Display and Inter), varied border-radius values, and refined shadow utilities for professional aesthetic."
+}

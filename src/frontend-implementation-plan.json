@@ -1,0 +1,160 @@
+{
+  "kind": "implementation_plan",
+  "version": "1.0",
+  "title": "Creative Tracker - Frontend Implementation",
+  "requirements": [
+    {
+      "id": "REQ-3",
+      "summary": "Implement image upload functionality with blob-storage component integration for creative projects",
+      "acceptanceCriteria": [
+        "Users can upload image files through the interface",
+        "Uploaded images are stored as static assets in frontend/public/assets",
+        "Image references are associated with specific creative projects",
+        "Uploaded images can be viewed and displayed"
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/components/ImageUpload.tsx",
+          "operation": "create",
+          "description": "Create an ImageUpload component that accepts multiple image files, converts them to ExternalBlob instances using ExternalBlob.fromBytes(), and provides upload progress feedback. Use the blob-storage component to handle file uploads. The component should accept a callback to return the array of ExternalBlob instances to the parent form. Verify the blob-storage component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/components/ProjectForm.tsx",
+          "operation": "create",
+          "description": "Create a form component for adding and editing creative projects with fields for title, description, completion date, Amazon upload date, and integrate the ImageUpload component. The form should collect image ExternalBlob instances and pass them to the backend along with other project data. Include form validation for required fields and date inputs."
+        }
+      ]
+    },
+    {
+      "id": "REQ-4",
+      "summary": "Create dashboard view displaying all creative projects with thumbnails, dates, and project metadata",
+      "acceptanceCriteria": [
+        "Dashboard displays all creative projects",
+        "Each project shows completion date and Amazon upload date clearly",
+        "Thumbnail images are visible for each project",
+        "Layout is organized and easy to scan"
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/components/ProjectCard.tsx",
+          "operation": "create",
+          "description": "Create a ProjectCard component that displays a single creative project with thumbnail image (using ExternalBlob.getDirectURL() for the image source), title, completion date, and Amazon upload date. The card should be clickable to navigate to the project detail view. Format dates for readability and use sophisticated styling consistent with the classy theme."
+        },
+        {
+          "path": "frontend/src/components/Dashboard.tsx",
+          "operation": "create",
+          "description": "Create a Dashboard component that fetches all creative projects using React Query and the getAllProjects backend method. Display projects in a responsive grid layout using ProjectCard components. Include a loading state and empty state when no projects exist. Add a button to open the project creation form."
+        },
+        {
+          "path": "frontend/src/App.tsx",
+          "operation": "modify",
+          "description": "Wire the Dashboard component as the main view. Set up React Router with routes for the dashboard, project detail view, and project form. Ensure navigation between these views works correctly."
+        }
+      ]
+    },
+    {
+      "id": "REQ-5",
+      "summary": "Implement form interface to add new creative projects with all required fields and image upload",
+      "acceptanceCriteria": [
+        "Form includes all required input fields",
+        "Date pickers are provided for both date fields",
+        "Image upload interface is intuitive",
+        "Form validates inputs before submission",
+        "Successfully added projects appear in the dashboard"
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/hooks/useCreateProject.ts",
+          "operation": "create",
+          "description": "Create a custom hook using React Query's useMutation to call the createProject backend method. Accept title, description, completion timestamp, Amazon upload timestamp, and images array as parameters. Generate a unique ID for the project. Handle success and error states, and invalidate the projects query cache on success to refresh the dashboard."
+        },
+        {
+          "path": "frontend/src/pages/CreateProjectPage.tsx",
+          "operation": "create",
+          "description": "Create a page component that renders the ProjectForm component for creating new projects. Use the useCreateProject hook to submit form data. Navigate back to the dashboard on successful creation. Include a cancel button to return to the dashboard without saving."
+        },
+        {
+          "path": "frontend/src/App.tsx",
+          "operation": "modify",
+          "description": "Add a route for /create that renders the CreateProjectPage component. Ensure the Dashboard has a button that navigates to this route."
+        }
+      ]
+    },
+    {
+      "id": "REQ-6",
+      "summary": "Implement detailed view for individual creative projects with full images, metadata, and edit/delete actions",
+      "acceptanceCriteria": [
+        "Clicking a project opens detailed view",
+        "Full-size creative image is displayed",
+        "All project metadata is visible",
+        "Edit and delete actions are available",
+        "Changes are reflected immediately in the dashboard"
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/hooks/useProject.ts",
+          "operation": "create",
+          "description": "Create a custom hook using React Query's useQuery to fetch a single project by ID using the getProject backend method. Accept the project ID as a parameter and return the project data, loading state, and error state."
+        },
+        {
+          "path": "frontend/src/hooks/useUpdateProject.ts",
+          "operation": "create",
+          "description": "Create a custom hook using React Query's useMutation to call the updateProject backend method. Accept project ID, title, description, completion timestamp, Amazon upload timestamp, and images array as parameters. Handle success and error states, and invalidate both the single project and all projects query caches on success."
+        },
+        {
+          "path": "frontend/src/hooks/useDeleteProject.ts",
+          "operation": "create",
+          "description": "Create a custom hook using React Query's useMutation to call the deleteProject backend method. Accept the project ID as a parameter. Handle success and error states, invalidate the projects query cache, and navigate back to the dashboard on successful deletion."
+        },
+        {
+          "path": "frontend/src/pages/ProjectDetailPage.tsx",
+          "operation": "create",
+          "description": "Create a page component that displays full project details. Use the useProject hook to fetch project data by ID from the route parameter. Display full-size images using ExternalBlob.getDirectURL(), title, description, both dates formatted clearly, and action buttons for edit and delete. Use the useDeleteProject hook for deletion with confirmation dialog. Include a button to navigate to the edit page."
+        },
+        {
+          "path": "frontend/src/pages/EditProjectPage.tsx",
+          "operation": "create",
+          "description": "Create a page component that renders the ProjectForm component pre-populated with existing project data. Use the useProject hook to fetch current data and the useUpdateProject hook to save changes. Navigate back to the project detail view on successful update. Include a cancel button to return without saving."
+        },
+        {
+          "path": "frontend/src/App.tsx",
+          "operation": "modify",
+          "description": "Add routes for /project/:id (ProjectDetailPage) and /project/:id/edit (EditProjectPage). Ensure ProjectCard components in the Dashboard link to the detail route for each project."
+        }
+      ]
+    },
+    {
+      "id": "REQ-7",
+      "summary": "Design and implement sophisticated, professional visual theme with elegant typography and refined styling",
+      "acceptanceCriteria": [
+        "Visual design feels polished and professional",
+        "Typography choices are refined and readable",
+        "Color scheme is sophisticated and cohesive",
+        "Spacing and layout create a premium feel",
+        "UI components have consistent styling throughout"
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/index.css",
+          "operation": "modify",
+          "description": "Define a sophisticated color palette avoiding blue and purple (consider warm neutrals, blacks, grays, greens, or earth tones). Set up elegant typography using refined font families (consider serif or sophisticated sans-serif fonts). Configure CSS custom properties for consistent spacing, border-radius, and shadow values. Apply professional base styles to body, headings, and common elements."
+        },
+        {
+          "path": "frontend/tailwind.config.js",
+          "operation": "modify",
+          "description": "Extend Tailwind configuration with custom color palette matching the sophisticated theme (avoiding blue and purple). Configure custom font families, spacing scale, and shadow utilities that convey professionalism. Set up refined border-radius values and transition properties for polished interactions."
+        },
+        {
+          "path": "frontend/src/components/Layout.tsx",
+          "operation": "create",
+          "description": "Create a Layout component that wraps all pages with consistent header, navigation, and footer. Apply sophisticated styling with refined spacing and professional visual hierarchy. Include the application title and navigation links styled elegantly. Use the custom theme colors and typography throughout."
+        },
+        {
+          "path": "frontend/src/App.tsx",
+          "operation": "modify",
+          "description": "Wrap all route components with the Layout component to ensure consistent professional styling across all pages."
+        }
+      ]
+    }
+  ]
+}
