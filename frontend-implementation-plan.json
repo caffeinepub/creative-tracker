@@ -1,0 +1,28 @@
+{
+  "kind": "implementation_plan",
+  "version": "1.0",
+  "title": "Make project cards more compact",
+  "requirements": [
+    {
+      "id": "REQ-12",
+      "summary": "Reduce the visual size of ProjectCard components by shrinking thumbnail height, reducing padding, condensing typography, and tightening spacing to fit more cards on screen",
+      "acceptanceCriteria": [
+        "The thumbnail/placeholder area height is noticeably reduced compared to the current version (e.g., from ~230px tall to ~120px or less)",
+        "Card internal padding is tighter so cards take up less vertical and horizontal space",
+        "Title font size is reduced while remaining legible",
+        "Description text is capped at fewer lines (1–2 lines max) with ellipsis overflow",
+        "Date rows (Completion and Amazon Upload) are more compact with reduced spacing between them",
+        "At least 3–4 cards are visible per row on a standard desktop viewport",
+        "Status badge remains visible and correctly positioned on each card",
+        "Clicking a card still navigates to the project detail page"
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/components/ProjectCard.tsx",
+          "operation": "modify",
+          "description": "Reduce the thumbnail/placeholder image area height from the current tall placeholder to approximately 120px or less. Reduce card internal padding (e.g., from p-4 to p-2 or p-3). Condense the title font size while maintaining legibility (e.g., reduce from text-xl to text-lg or text-base). Limit description text to 1–2 lines maximum with ellipsis overflow using line-clamp. Tighten spacing between the completion date and Amazon upload date rows by reducing gap or margin values. Ensure the status badge position remains unchanged and the card click behavior continues to navigate to the project detail page."
+        }
+      ]
+    }
+  ]
+}

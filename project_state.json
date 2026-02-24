@@ -1,0 +1,161 @@
+{
+  "schemaVersion": "1.0.0",
+  "projectStateVersion": 7,
+  "summary": "Website for creative team management at an Amazon marketing agency. Tracks creative work with completion dates, Amazon upload dates, and project status (Done, In Progress, Approval Pending). Allows uploading/viewing images of creatives. Dashboard provides overview of task counts by status. Requires classy, professional UI.",
+  "architectural_notes": [
+    "Website targeting creative team collaboration",
+    "Focus on Amazon marketing agency workflow",
+    "Two key dates per creative: completion date and Amazon upload date",
+    "Image upload and display capability required",
+    "Status tracking system with three predefined states: Done, In Progress, Approval Pending",
+    "Dashboard serves as main landing page with status count overview"
+  ],
+  "known_issues": [],
+  "isFixRequest": false,
+  "existing_features": [
+    {
+      "id": "feature-implement-image-upload-functionality-allowing-users-to-upload-creative-images-as-static-assets-storing-references-in-the-creative-project-records",
+      "title": "Implement image upload functionality allowing users to upload creative images as static assets, storing references in the creative project records",
+      "reqIds": [
+        "REQ-3"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-create-a-dashboard-view-displaying-all-creative-projects-in-a-grid-or-list-format-showing-title-both-dates-completion-and-amazon-upload-and-thumbnail-images",
+      "title": "Create a dashboard view displaying all creative projects in a grid or list format, showing title, both dates (completion and Amazon upload), and thumbnail images",
+      "reqIds": [
+        "REQ-4"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-implement-a-form-interface-to-add-new-creative-projects-with-fields-for-title-description-completion-date-amazon-upload-date-and-image-upload",
+      "title": "Implement a form interface to add new creative projects with fields for title, description, completion date, Amazon upload date, and image upload",
+      "reqIds": [
+        "REQ-5"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-implement-detailed-view-for-individual-creative-projects-showing-full-image-all-metadata-and-edit-delete-actions",
+      "title": "Implement detailed view for individual creative projects showing full image, all metadata, and edit/delete actions",
+      "reqIds": [
+        "REQ-6"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-design-and-implement-a-sophisticated-professional-visual-theme-with-elegant-typography-refined-color-palette-avoiding-blue-and-purple-refined-spacing-and-polished-ui-components-that-convey-professionalism-suitable-for-an-agency-setting",
+      "title": "Design and implement a sophisticated, professional visual theme with elegant typography, refined color palette (avoiding blue and purple), refined spacing, and polished UI components that convey professionalism suitable for an agency setting",
+      "reqIds": [
+        "REQ-7"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-create-a-status-count-overview-section-at-the-top-of-the-dashboard-page-showing-the-count-of-projects-for-each-status-type-done-in-progress-approval-pending-display-these-counts-prominently-as-the-first-thing-users-see-on-the-dashboard",
+      "title": "Create a status count overview section at the top of the Dashboard page showing the count of projects for each status type ('Done', 'In Progress', 'Approval Pending'). Display these counts prominently as the first thing users see on the dashboard.",
+      "reqIds": [
+        "REQ-9"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-status-indicator-to-the-projectcard-component-to-display-the-current-status-of-each-project-the-status-should-be-clearly-visible-on-each-card-in-the-dashboard-grid",
+      "title": "Add status indicator to the ProjectCard component to display the current status of each project. The status should be clearly visible on each card in the dashboard grid.",
+      "reqIds": [
+        "REQ-10"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-a-status-dropdown-field-to-the-projectform-component-with-the-three-status-options-done-in-progress-approval-pending-include-this-field-in-both-create-and-edit-modes-with-appropriate-default-selection",
+      "title": "Add a status dropdown field to the ProjectForm component with the three status options ('Done', 'In Progress', 'Approval Pending'). Include this field in both create and edit modes with appropriate default selection.",
+      "reqIds": [
+        "REQ-11"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-reduce-the-visual-size-of-projectcard-components-so-more-cards-fit-on-screen-at-once-specifically-shrink-the-thumbnail-placeholder-image-area-height-from-the-current-tall-placeholder-to-a-much-shorter-one-reduce-internal-padding-throughout-the-card-condense-the-title-font-size-shorten-the-description-text-area-and-tighten-spacing-between-the-date-rows-the-status-badge-position-and-card-click-behavior-must-remain-unchanged",
+      "title": "Reduce the visual size of ProjectCard components so more cards fit on screen at once. Specifically: shrink the thumbnail/placeholder image area height (from the current tall placeholder to a much shorter one), reduce internal padding throughout the card, condense the title font size, shorten the description text area, and tighten spacing between the date rows. The status badge position and card click behavior must remain unchanged.",
+      "reqIds": [
+        "REQ-12"
+      ],
+      "version": 1
+    }
+  ],
+  "new_feature_requests": [
+    {
+      "id": "AR-1",
+      "summary": "Track creatives with completion and Amazon upload dates",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-2",
+      "summary": "Upload and display creative images",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-3",
+      "summary": "Classy, professional UI design",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-4",
+      "summary": "Create a backend data model to store creative projects with fields: title, description, completion date, Amazon upload date, and associated image URLs",
+      "reqIds": [
+        "REQ-1"
+      ],
+      "status": "pending"
+    },
+    {
+      "id": "AR-5",
+      "summary": "Implement backend endpoints to create, read, update, and delete creative projects",
+      "reqIds": [
+        "REQ-2"
+      ],
+      "status": "pending"
+    },
+    {
+      "id": "AR-6",
+      "summary": "Add status tracking system with three states: Done, In Progress, Approval Pending",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-7",
+      "summary": "Create dashboard as main interface showing count overview for each status type",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-8",
+      "summary": "Display status on project cards and include status dropdown in add/edit forms",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-9",
+      "summary": "Add a status field to the CreativeProject data model in backend/main.mo with three possible values: 'Done', 'In Progress', 'Approval Pending'. Update the type definition and all CRUD operations to include this field.",
+      "reqIds": [
+        "REQ-8"
+      ],
+      "status": "pending"
+    },
+    {
+      "id": "AR-10",
+      "summary": "Make project cards smaller/more compact with smaller thumbnails, tighter padding, and condensed text so more cards fit on screen",
+      "reqIds": [],
+      "status": "pending"
+    }
+  ],
+  "gameProjectType": "none",
+  "projectName": "Creative Tracker",
+  "clarification_mode": "instant",
+  "clarification_rounds": 0
+}
