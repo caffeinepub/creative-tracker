@@ -5,12 +5,13 @@ import Array "mo:core/Array";
 import Text "mo:core/Text";
 import Iter "mo:core/Iter";
 import Principal "mo:core/Principal";
+import Nat "mo:core/Nat";
 import Order "mo:core/Order";
-import Storage "blob-storage/Storage";
 import Time "mo:core/Time";
+import Storage "blob-storage/Storage";
+import Migration "migration";
 
-
-
+(with migration = Migration.run)
 actor {
   include MixinStorage();
 
@@ -18,6 +19,14 @@ actor {
     #done;
     #inProgress;
     #approvalPending;
+  };
+
+  type PositionalComment = {
+    id : Nat;
+    text : Text;
+    xPercentage : Float;
+    yPercentage : Float;
+    timestamp : Int;
   };
 
   type CreativeProject = {
@@ -31,6 +40,8 @@ actor {
     createdAt : Time.Time;
     updatedAt : Time.Time;
     status : ProjectStatus;
+    commentIdCounter : Nat;
+    positionalComments : [PositionalComment];
   };
 
   module CreativeProject {
@@ -74,6 +85,8 @@ actor {
       createdAt = currentTime;
       updatedAt = currentTime;
       status;
+      commentIdCounter = 0;
+      positionalComments = [];
     };
 
     projectStore.add(id, newProject);
@@ -115,6 +128,8 @@ actor {
           createdAt = existingProject.createdAt;
           updatedAt = Time.now();
           status;
+          positionalComments = existingProject.positionalComments;
+          commentIdCounter = existingProject.commentIdCounter;
         };
 
         projectStore.add(id, updatedProject);
@@ -145,5 +160,61 @@ actor {
     projectStore.values().toArray().filter(
       func(project) { project.creator == creator }
     );
+  };
+
+  // Add a positional comment to a project
+  public shared ({ caller }) func addPositionalComment(
+    projectId : Text,
+    text : Text,
+    xPercentage : Float,
+    yPercentage : Float,
+  ) : async () {
+    switch (projectStore.get(projectId)) {
+      case (null) { Runtime.trap("Project not found") };
+      case (?existingProject) {
+        let newComment : PositionalComment = {
+          id = existingProject.commentIdCounter;
+          text;
+          xPercentage;
+          yPercentage;
+          timestamp = Time.now();
+        };
+
+        let updatedComments = existingProject.positionalComments.concat([newComment]);
+        let updatedProject : CreativeProject = {
+          existingProject with
+          positionalComments = updatedComments;
+          commentIdCounter = existingProject.commentIdCounter + 1;
+        };
+
+        projectStore.add(projectId, updatedProject);
+      };
+    };
+  };
+
+  // Delete a positional comment by ID
+  public shared ({ caller }) func deletePositionalComment(projectId : Text, commentId : Nat) : async () {
+    switch (projectStore.get(projectId)) {
+      case (null) { Runtime.trap("Project not found") };
+      case (?existingProject) {
+        let filteredComments = existingProject.positionalComments.filter(
+          func(comment) { comment.id != commentId }
+        );
+        let updatedProject : CreativeProject = {
+          existingProject with
+          positionalComments = filteredComments;
+        };
+
+        projectStore.add(projectId, updatedProject);
+      };
+    };
+  };
+
+  // Helper function to get positional comments for a project
+  public query ({ caller = _ }) func getPositionalComments(projectId : Text) : async [PositionalComment] {
+    switch (projectStore.get(projectId)) {
+      case (null) { Runtime.trap("Project with ID " # projectId # " not found") };
+      case (?project) { project.positionalComments };
+    };
   };
 };

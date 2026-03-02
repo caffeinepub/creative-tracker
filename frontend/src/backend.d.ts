@@ -19,23 +19,35 @@ export interface CreativeProject {
     status: ProjectStatus;
     title: string;
     creator: Principal;
+    commentIdCounter: bigint;
     amazonUploadTimestamp?: bigint;
     createdAt: Time;
     description: string;
     updatedAt: Time;
+    positionalComments: Array<PositionalComment>;
     completionTimestamp: bigint;
     images: Array<ExternalBlob>;
 }
 export type Time = bigint;
+export interface PositionalComment {
+    id: bigint;
+    xPercentage: number;
+    text: string;
+    timestamp: bigint;
+    yPercentage: number;
+}
 export enum ProjectStatus {
     done = "done",
     inProgress = "inProgress",
     approvalPending = "approvalPending"
 }
 export interface backendInterface {
+    addPositionalComment(projectId: string, text: string, xPercentage: number, yPercentage: number): Promise<void>;
     createProject(id: string, title: string, description: string, completionTimestamp: bigint, amazonUploadTimestamp: bigint | null, images: Array<ExternalBlob>, status: ProjectStatus): Promise<void>;
+    deletePositionalComment(projectId: string, commentId: bigint): Promise<void>;
     deleteProject(id: string): Promise<void>;
     getAllProjects(): Promise<Array<CreativeProject>>;
+    getPositionalComments(projectId: string): Promise<Array<PositionalComment>>;
     getProject(id: string): Promise<CreativeProject>;
     getProjectsByCreator(creator: Principal): Promise<Array<CreativeProject>>;
     updateProject(id: string, title: string, description: string, completionTimestamp: bigint, amazonUploadTimestamp: bigint | null, images: Array<ExternalBlob>, status: ProjectStatus): Promise<void>;

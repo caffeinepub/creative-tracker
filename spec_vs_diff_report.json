@@ -1,14 +1,52 @@
 {
   "kind": "spec_vs_diff_report",
   "version": "1.0",
-  "generatedAt": "2026-02-24T11:12:30.722Z",
-  "summary": "The diff implements compact ProjectCard changes in frontend/src/components/ProjectCard.tsx. All major REQ-12 acceptance criteria appear to be addressed: thumbnail reduced to h-24 (~96px), padding tightened (px-3, pt-2, pb-1), title font reduced to text-sm, description line-clamped to 1 line, date rows use text-xs with gap-0.5 spacing. Status badge remains positioned top-right and card click navigation is preserved. The grid density change (3-4+ cards per row) would depend on Dashboard.tsx grid configuration which is not shown modified, but the card compactness itself enables this.",
-  "missing_requirements": [],
-  "hallucinated_features": [],
-  "confidence": 0.88,
+  "generatedAt": "2026-02-24T12:36:17.317Z",
+  "summary": "The diff implements positional commenting on creative images across backend and frontend. REQ-15 through REQ-18 are largely implemented, but there are naming discrepancies between what the spec requires and what was implemented (e.g., field names x/y vs xPercentage/yPercentage, function names addComment vs addPositionalComment, hook names useAddComment vs useAddPositionalComment). These may or may not be considered violations depending on interpretation, but the spec is explicit about naming in the acceptance criteria.",
+  "missing_requirements": [
+    {
+      "id": "REQ-15",
+      "requirement": "CreativeProject type includes a `comments` field (named `comments`), each comment stores fields named `x`, `y`, `createdAt` (Int), and `id` (Text). Backend exposes `addComment(projectId, text, x, y)` and `deleteComment(projectId, commentId)` functions.",
+      "reason": "The implementation uses `positionalComments` instead of `comments`, `xPercentage`/`yPercentage` instead of `x`/`y`, `timestamp` instead of `createdAt`, and `id` as Nat instead of Text. Backend functions are named `addPositionalComment` and `deletePositionalComment` instead of `addComment` and `deleteComment`. The spec ACs explicitly specify field and function names.",
+      "evidence": [
+        "backend/main.mo",
+        "backend/migration.mo"
+      ]
+    },
+    {
+      "id": "REQ-16",
+      "requirement": "`useAddComment` and `useDeleteComment` mutation hooks (exact names per spec).",
+      "reason": "The hooks are named `useAddPositionalComment` and `useDeletePositionalComment` instead of `useAddComment` and `useDeleteComment` as specified in REQ-16.",
+      "evidence": [
+        "frontend/src/hooks/useQueries.ts"
+      ]
+    }
+  ],
+  "hallucinated_features": [
+    {
+      "description": "Migration module that handles upgrading existing projects from old schema without comments to new schema with positionalComments.",
+      "reason": "The build request does not mention a migration module or data migration strategy. This was added beyond the spec requirements.",
+      "evidence": [
+        "backend/migration.mo"
+      ]
+    },
+    {
+      "description": "Per-pin loading state (isDeletingCommentId) and isAddingComment loading prop passed to ImageWithComments to show spinner/disabled states during async operations.",
+      "reason": "The spec does not mention loading states or spinners for comment add/delete operations. These are extra UX features not requested.",
+      "evidence": [
+        "frontend/src/components/ImageWithComments.tsx",
+        "frontend/src/pages/ProjectDetailPage.tsx"
+      ]
+    }
+  ],
+  "confidence": 0.72,
   "changed_files": [
+    "backend/main.mo",
+    "backend/migration.mo",
     "frontend-file-summaries.txt",
-    "frontend/src/components/ProjectCard.tsx",
+    "frontend/src/components/ImageWithComments.tsx",
+    "frontend/src/hooks/useQueries.ts",
+    "frontend/src/pages/ProjectDetailPage.tsx",
     "project_state.json"
   ]
 }

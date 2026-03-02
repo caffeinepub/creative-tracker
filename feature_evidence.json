@@ -2,10 +2,10 @@
   "kind": "feature_evidence_report",
   "features": [
     {
-      "featureId": "feature-reduce-the-visual-size-of-projectcard-components-so-more-cards-fit-on-screen-at-once-specifically-shrink-the-thumbnail-placeholder-image-area-height-from-the-current-tall-placeholder-to-a-much-shorter-one-reduce-internal-padding-throughout-the-card-condense-the-title-font-size-shorten-the-description-text-area-and-tighten-spacing-between-the-date-rows-the-status-badge-position-and-card-click-behavior-must-remain-unchanged",
-      "featureTitle": "Reduce the visual size of ProjectCard components so more cards fit on screen at once. Specifically: shrink the thumbnail/placeholder image area height (from the current tall placeholder to a much shorter one), reduce internal padding throughout the card, condense the title font size, shorten the description text area, and tighten spacing between the date rows. The status badge position and card click behavior must remain unchanged.",
+      "featureId": "feature-add-react-query-hooks-in-frontend-src-hooks-usequeries-ts-for-the-two-new-backend-functions-addcomment-mutation-and-deletecomment-mutation-both-mutations-must-invalidate-the-affected-project-query-on-success",
+      "featureTitle": "Add React Query hooks in `frontend/src/hooks/useQueries.ts` for the two new backend functions: `addComment` (mutation) and `deleteComment` (mutation). Both mutations must invalidate the affected project query on success.",
       "files": [
-        "frontend/src/components/ProjectCard.tsx"
+        "frontend/src/hooks/useQueries.ts"
       ],
       "components": [
         "blob-storage@4.0.0",
@@ -16,7 +16,45 @@
         "github-export-icp-cli@1.0.0"
       ],
       "testIds": [
-        "REQ-12"
+        "REQ-16"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-create-a-new-imagewithcomments-component-in-frontend-src-components-imagewithcomments-tsx-this-component-renders-a-project-image-and-overlays-positional-comment-pins-clicking-anywhere-on-the-image-opens-an-inline-text-input-at-the-clicked-location-allowing-the-user-to-type-a-comment-and-submit-it-drops-a-pin-at-that-x-y-position-as-a-percentage-of-image-width-height-each-pin-renders-as-a-small-subtle-circular-marker-by-default-each-pin-shows-a-short-truncated-preview-of-the-comment-text-on-hover-the-full-comment-text-expands-into-a-readable-tooltip-popover-each-comment-pin-includes-a-delete-button-visible-on-hover-that-removes-it-the-component-must-handle-multiple-simultaneous-pins-cleanly-so-the-image-remains-readable",
+      "featureTitle": "Create a new `ImageWithComments` component in `frontend/src/components/ImageWithComments.tsx`. This component renders a project image and overlays positional comment pins. Clicking anywhere on the image opens an inline text input at the clicked location, allowing the user to type a comment and submit it (drops a pin at that x/y position as a percentage of image width/height). Each pin renders as a small, subtle circular marker. By default, each pin shows a short truncated preview of the comment text. On hover, the full comment text expands into a readable tooltip/popover. Each comment pin includes a delete button (visible on hover) that removes it. The component must handle multiple simultaneous pins cleanly so the image remains readable.",
+      "files": [
+        "frontend/src/components/ImageWithComments.tsx"
+      ],
+      "components": [
+        "blob-storage@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-17"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-integrate-the-imagewithcomments-component-into-frontend-src-pages-projectdetailpage-tsx-replace-the-current-static-image-display-with-imagewithcomments-for-each-project-image-passing-the-project-s-comments-and-the-add-delete-mutation-callbacks-the-rest-of-the-project-detail-layout-metadata-edit-delete-actions-must-remain-unchanged",
+      "featureTitle": "Integrate the `ImageWithComments` component into `frontend/src/pages/ProjectDetailPage.tsx`. Replace the current static image display with `ImageWithComments` for each project image, passing the project's comments and the add/delete mutation callbacks. The rest of the project detail layout (metadata, edit/delete actions) must remain unchanged.",
+      "files": [
+        "frontend/src/pages/ProjectDetailPage.tsx"
+      ],
+      "components": [
+        "blob-storage@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-18"
       ],
       "confidence": "high"
     }

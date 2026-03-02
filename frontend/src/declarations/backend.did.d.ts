@@ -15,14 +15,23 @@ export interface CreativeProject {
   'status' : ProjectStatus,
   'title' : string,
   'creator' : Principal,
+  'commentIdCounter' : bigint,
   'amazonUploadTimestamp' : [] | [bigint],
   'createdAt' : Time,
   'description' : string,
   'updatedAt' : Time,
+  'positionalComments' : Array<PositionalComment>,
   'completionTimestamp' : bigint,
   'images' : Array<ExternalBlob>,
 }
 export type ExternalBlob = Uint8Array;
+export interface PositionalComment {
+  'id' : bigint,
+  'xPercentage' : number,
+  'text' : string,
+  'timestamp' : bigint,
+  'yPercentage' : number,
+}
 export type ProjectStatus = { 'done' : null } |
   { 'inProgress' : null } |
   { 'approvalPending' : null };
@@ -54,6 +63,10 @@ export interface _SERVICE {
     _CaffeineStorageRefillResult
   >,
   '_caffeineStorageUpdateGatewayPrincipals' : ActorMethod<[], undefined>,
+  'addPositionalComment' : ActorMethod<
+    [string, string, number, number],
+    undefined
+  >,
   'createProject' : ActorMethod<
     [
       string,
@@ -66,8 +79,10 @@ export interface _SERVICE {
     ],
     undefined
   >,
+  'deletePositionalComment' : ActorMethod<[string, bigint], undefined>,
   'deleteProject' : ActorMethod<[string], undefined>,
   'getAllProjects' : ActorMethod<[], Array<CreativeProject>>,
+  'getPositionalComments' : ActorMethod<[string], Array<PositionalComment>>,
   'getProject' : ActorMethod<[string], CreativeProject>,
   'getProjectsByCreator' : ActorMethod<[Principal], Array<CreativeProject>>,
   'updateProject' : ActorMethod<

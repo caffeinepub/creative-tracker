@@ -4,26 +4,11 @@ import { ProjectCard } from '../components/ProjectCard';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Plus, Loader2, CheckCircle2, Clock, AlertCircle } from 'lucide-react';
-import { useInternetIdentity } from '../hooks/useInternetIdentity';
 import { ProjectStatus } from '../backend';
 
 export function Dashboard() {
   const navigate = useNavigate();
   const { data: projects, isLoading } = useGetAllProjects();
-  const { isLoginSuccess } = useInternetIdentity();
-
-  if (!isLoginSuccess) {
-    return (
-      <div className="container mx-auto px-6 py-16">
-        <div className="max-w-2xl mx-auto text-center">
-          <h2 className="text-3xl font-serif font-bold mb-4">Welcome to Creative Tracker</h2>
-          <p className="text-muted-foreground mb-8">
-            Please login to view and manage your creative projects.
-          </p>
-        </div>
-      </div>
-    );
-  }
 
   if (isLoading) {
     return (

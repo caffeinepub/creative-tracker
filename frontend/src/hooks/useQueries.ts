@@ -109,3 +109,43 @@ export function useDeleteProject() {
     },
   });
 }
+
+export function useAddPositionalComment() {
+  const { actor } = useActor();
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async (data: {
+      projectId: string;
+      text: string;
+      xPercentage: number;
+      yPercentage: number;
+    }) => {
+      if (!actor) throw new Error('Actor not initialized');
+      await actor.addPositionalComment(
+        data.projectId,
+        data.text,
+        data.xPercentage,
+        data.yPercentage
+      );
+    },
+    onSuccess: (_, variables) => {
+      queryClient.invalidateQueries({ queryKey: ['project', variables.projectId] });
+    },
+  });
+}
+
+export function useDeletePositionalComment() {
+  const { actor } = useActor();
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async (data: { projectId: string; commentId: bigint }) => {
+      if (!actor) throw new Error('Actor not initialized');
+      await actor.deletePositionalComment(data.projectId, data.commentId);
+    },
+    onSuccess: (_, variables) => {
+      queryClient.invalidateQueries({ queryKey: ['project', variables.projectId] });
+    },
+  });
+}

@@ -26,15 +26,24 @@ export const ProjectStatus = IDL.Variant({
   'approvalPending' : IDL.Null,
 });
 export const Time = IDL.Int;
+export const PositionalComment = IDL.Record({
+  'id' : IDL.Nat,
+  'xPercentage' : IDL.Float64,
+  'text' : IDL.Text,
+  'timestamp' : IDL.Int,
+  'yPercentage' : IDL.Float64,
+});
 export const CreativeProject = IDL.Record({
   'id' : IDL.Text,
   'status' : ProjectStatus,
   'title' : IDL.Text,
   'creator' : IDL.Principal,
+  'commentIdCounter' : IDL.Nat,
   'amazonUploadTimestamp' : IDL.Opt(IDL.Nat),
   'createdAt' : Time,
   'description' : IDL.Text,
   'updatedAt' : Time,
+  'positionalComments' : IDL.Vec(PositionalComment),
   'completionTimestamp' : IDL.Nat,
   'images' : IDL.Vec(ExternalBlob),
 });
@@ -66,6 +75,11 @@ export const idlService = IDL.Service({
       [],
     ),
   '_caffeineStorageUpdateGatewayPrincipals' : IDL.Func([], [], []),
+  'addPositionalComment' : IDL.Func(
+      [IDL.Text, IDL.Text, IDL.Float64, IDL.Float64],
+      [],
+      [],
+    ),
   'createProject' : IDL.Func(
       [
         IDL.Text,
@@ -79,8 +93,14 @@ export const idlService = IDL.Service({
       [],
       [],
     ),
+  'deletePositionalComment' : IDL.Func([IDL.Text, IDL.Nat], [], []),
   'deleteProject' : IDL.Func([IDL.Text], [], []),
   'getAllProjects' : IDL.Func([], [IDL.Vec(CreativeProject)], ['query']),
+  'getPositionalComments' : IDL.Func(
+      [IDL.Text],
+      [IDL.Vec(PositionalComment)],
+      ['query'],
+    ),
   'getProject' : IDL.Func([IDL.Text], [CreativeProject], ['query']),
   'getProjectsByCreator' : IDL.Func(
       [IDL.Principal],
@@ -123,15 +143,24 @@ export const idlFactory = ({ IDL }) => {
     'approvalPending' : IDL.Null,
   });
   const Time = IDL.Int;
+  const PositionalComment = IDL.Record({
+    'id' : IDL.Nat,
+    'xPercentage' : IDL.Float64,
+    'text' : IDL.Text,
+    'timestamp' : IDL.Int,
+    'yPercentage' : IDL.Float64,
+  });
   const CreativeProject = IDL.Record({
     'id' : IDL.Text,
     'status' : ProjectStatus,
     'title' : IDL.Text,
     'creator' : IDL.Principal,
+    'commentIdCounter' : IDL.Nat,
     'amazonUploadTimestamp' : IDL.Opt(IDL.Nat),
     'createdAt' : Time,
     'description' : IDL.Text,
     'updatedAt' : Time,
+    'positionalComments' : IDL.Vec(PositionalComment),
     'completionTimestamp' : IDL.Nat,
     'images' : IDL.Vec(ExternalBlob),
   });
@@ -163,6 +192,11 @@ export const idlFactory = ({ IDL }) => {
         [],
       ),
     '_caffeineStorageUpdateGatewayPrincipals' : IDL.Func([], [], []),
+    'addPositionalComment' : IDL.Func(
+        [IDL.Text, IDL.Text, IDL.Float64, IDL.Float64],
+        [],
+        [],
+      ),
     'createProject' : IDL.Func(
         [
           IDL.Text,
@@ -176,8 +210,14 @@ export const idlFactory = ({ IDL }) => {
         [],
         [],
       ),
+    'deletePositionalComment' : IDL.Func([IDL.Text, IDL.Nat], [], []),
     'deleteProject' : IDL.Func([IDL.Text], [], []),
     'getAllProjects' : IDL.Func([], [IDL.Vec(CreativeProject)], ['query']),
+    'getPositionalComments' : IDL.Func(
+        [IDL.Text],
+        [IDL.Vec(PositionalComment)],
+        ['query'],
+      ),
     'getProject' : IDL.Func([IDL.Text], [CreativeProject], ['query']),
     'getProjectsByCreator' : IDL.Func(
         [IDL.Principal],

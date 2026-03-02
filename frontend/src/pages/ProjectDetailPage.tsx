@@ -1,5 +1,11 @@
+import { useState } from 'react';
 import { useNavigate, useParams } from '@tanstack/react-router';
-import { useGetProject, useDeleteProject } from '../hooks/useQueries';
+import {
+  useGetProject,
+  useDeleteProject,
+  useAddPositionalComment,
+  useDeletePositionalComment,
+} from '../hooks/useQueries';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -16,12 +22,18 @@ import {
 } from '@/components/ui/alert-dialog';
 import { ArrowLeft, Calendar, Upload, Edit, Trash2, Loader2 } from 'lucide-react';
 import { toast } from 'sonner';
+import { ImageWithComments } from '../components/ImageWithComments';
 
 export function ProjectDetailPage() {
   const navigate = useNavigate();
   const { id } = useParams({ from: '/project/$id' });
   const { data: project, isLoading } = useGetProject(id);
   const deleteProject = useDeleteProject();
+  const addComment = useAddPositionalComment();
+  const deleteComment = useDeletePositionalComment();
+
+  // Track which comment is currently being deleted for per-pin loading state
+  const [deletingCommentId, setDeletingCommentId] = useState<bigint | null>(null);
 
   const handleDelete = async () => {
     try {
@@ -31,6 +43,34 @@ export function ProjectDetailPage() {
     } catch (error) {
       toast.error('Failed to delete project. Please try again.');
       console.error('Delete project error:', error);
+    }
+  };
+
+  const handleAddComment = async (
+    text: string,
+    xPercentage: number,
+    yPercentage: number
+  ) => {
+    try {
+      await addComment.mutateAsync({ projectId: id, text, xPercentage, yPercentage });
+      toast.success('Comment added!');
+    } catch (error) {
+      toast.error('Failed to add comment. Please try again.');
+      console.error('Add comment error:', error);
+      throw error;
+    }
+  };
+
+  const handleDeleteComment = async (commentId: bigint) => {
+    setDeletingCommentId(commentId);
+    try {
+      await deleteComment.mutateAsync({ projectId: id, commentId });
+      toast.success('Comment removed.');
+    } catch (error) {
+      toast.error('Failed to delete comment. Please try again.');
+      console.error('Delete comment error:', error);
+    } finally {
+      setDeletingCommentId(null);
     }
   };
 
@@ -108,7 +148,10 @@ export function ProjectDetailPage() {
                 </AlertDialogHeader>
                 <AlertDialogFooter>
                   <AlertDialogCancel>Cancel</AlertDialogCancel>
-                  <AlertDialogAction onClick={handleDelete} className="bg-destructive text-destructive-foreground hover:bg-destructive/90">
+                  <AlertDialogAction
+                    onClick={handleDelete}
+                    className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+                  >
                     Delete Project
                   </AlertDialogAction>
                 </AlertDialogFooter>
@@ -166,14 +209,23 @@ export function ProjectDetailPage() {
 
       {project.images.length > 0 && (
         <div>
-          <h2 className="text-2xl font-serif font-bold mb-4">Creative Images</h2>
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="text-2xl font-serif font-bold">Creative Images</h2>
+            <p className="text-sm text-muted-foreground">
+              Click on any image to leave a pinned comment
+            </p>
+          </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {project.images.map((image, index) => (
               <Card key={index} className="overflow-hidden">
-                <img
-                  src={image.getDirectURL()}
-                  alt={`${project.title} - Image ${index + 1}`}
-                  className="w-full h-auto"
+                <ImageWithComments
+                  imageUrl={image.getDirectURL()}
+                  imageAlt={`${project.title} - Image ${index + 1}`}
+                  comments={project.positionalComments}
+                  onAddComment={handleAddComment}
+                  onDeleteComment={handleDeleteComment}
+                  isAddingComment={addComment.isPending}
+                  isDeletingCommentId={deletingCommentId}
                 />
               </Card>
             ))}

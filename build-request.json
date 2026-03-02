@@ -1,44 +1,105 @@
 {
   "kind": "build_request",
-  "title": "Make project cards more compact",
+  "title": "Add positional commenting on creative images",
   "projectName": "Creative Tracker",
   "priority": "normal",
   "requirements": [
     {
-      "id": "REQ-12",
-      "text": "Reduce the visual size of ProjectCard components so more cards fit on screen at once. Specifically: shrink the thumbnail/placeholder image area height (from the current tall placeholder to a much shorter one), reduce internal padding throughout the card, condense the title font size, shorten the description text area, and tighten spacing between the date rows. The status badge position and card click behavior must remain unchanged.",
-      "target": "frontend",
+      "id": "REQ-15",
+      "text": "Extend the backend CreativeProject data model to include a list of positional comments. Each comment must store: a unique ID, the comment text, x/y position as percentages of the image dimensions, and a timestamp. Implement backend functions to add a comment to a project and delete a comment by ID.",
+      "target": "backend",
       "source": {
         "messageIds": [
-          "msg-1",
-          "msg-3"
+          "msg-6",
+          "msg-8"
         ],
         "quotes": [
-          "this project size visually is too big. I need them smaller.",
-          "smaller thumbnail, tighter padding, condensed text, and reduced spacing between elements — so more cards fit on screen at once"
+          "comments stored per project with x/y position coordinates tied to the image position"
         ]
       },
       "acceptanceCriteria": [
-        "The thumbnail/placeholder area height is noticeably reduced compared to the current version (e.g., from ~230px tall to ~120px or less)",
-        "Card internal padding is tighter so cards take up less vertical and horizontal space",
-        "Title font size is reduced while remaining legible",
-        "Description text is capped at fewer lines (1–2 lines max) with ellipsis overflow",
-        "Date rows (Completion and Amazon Upload) are more compact with reduced spacing between them",
-        "At least 3–4 cards are visible per row on a standard desktop viewport",
-        "Status badge remains visible and correctly positioned on each card",
-        "Clicking a card still navigates to the project detail page"
+        "CreativeProject type includes a `comments` field: array of { id: Text, text: Text, x: Float, y: Float, createdAt: Int }",
+        "Backend exposes an `addComment(projectId, text, x, y)` function that appends a new comment and returns the updated project",
+        "Backend exposes a `deleteComment(projectId, commentId)` function that removes the specified comment",
+        "All existing CRUD operations preserve the comments array (empty by default on create)"
+      ]
+    },
+    {
+      "id": "REQ-16",
+      "text": "Add React Query hooks in `frontend/src/hooks/useQueries.ts` for the two new backend functions: `addComment` (mutation) and `deleteComment` (mutation). Both mutations must invalidate the affected project query on success.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-6",
+          "msg-8"
+        ]
+      },
+      "acceptanceCriteria": [
+        "`useAddComment` mutation hook calls the backend `addComment` and invalidates the project detail query on success",
+        "`useDeleteComment` mutation hook calls the backend `deleteComment` and invalidates the project detail query on success"
+      ]
+    },
+    {
+      "id": "REQ-17",
+      "text": "Create a new `ImageWithComments` component in `frontend/src/components/ImageWithComments.tsx`. This component renders a project image and overlays positional comment pins. Clicking anywhere on the image opens an inline text input at the clicked location, allowing the user to type a comment and submit it (drops a pin at that x/y position as a percentage of image width/height). Each pin renders as a small, subtle circular marker. By default, each pin shows a short truncated preview of the comment text. On hover, the full comment text expands into a readable tooltip/popover. Each comment pin includes a delete button (visible on hover) that removes it. The component must handle multiple simultaneous pins cleanly so the image remains readable.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-5",
+          "msg-6",
+          "msg-7",
+          "msg-8"
+        ],
+        "quotes": [
+          "click anywhere on the image to drop a comment pin at that exact location",
+          "Pins appear as subtle markers with a small preview of the comment text by default",
+          "Hover to expand — the full comment becomes fully readable on hover",
+          "Multiple pins stay subtle until hovered, so the image stays clean",
+          "Anyone can delete any comment — no auth needed"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Clicking on the image (not on an existing pin) opens an inline input at that position",
+        "Submitting the input calls `useAddComment` with the correct x/y percentages",
+        "Pressing Escape or clicking away cancels the new comment input without saving",
+        "Each comment pin is visually subtle (small circle marker) when not hovered",
+        "Hovering a pin expands it to display the full comment text in a readable tooltip/popover",
+        "A delete icon appears on hover; clicking it calls `useDeleteComment` and removes the pin",
+        "When multiple pins exist, only the hovered pin is fully expanded; others remain in subtle state",
+        "Pin positions are stable across re-renders (stored as percentage of image dimensions)"
+      ]
+    },
+    {
+      "id": "REQ-18",
+      "text": "Integrate the `ImageWithComments` component into `frontend/src/pages/ProjectDetailPage.tsx`. Replace the current static image display with `ImageWithComments` for each project image, passing the project's comments and the add/delete mutation callbacks. The rest of the project detail layout (metadata, edit/delete actions) must remain unchanged.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-8"
+        ],
+        "quotes": [
+          "Click anywhere on the image in the project detail view to drop a comment pin"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Project detail page renders each project image inside the `ImageWithComments` component",
+        "Comments loaded from the project data are displayed as pins on the correct image",
+        "Adding and deleting comments updates the UI immediately via query invalidation",
+        "All existing project detail functionality (metadata display, edit button, delete button) remains intact"
       ]
     }
   ],
   "constraints": [
-    "Do not modify any files under frontend/src/hooks/ or frontend/src/components/ui/",
-    "Do not change the data model, backend logic, or any CRUD operations",
-    "Preserve the existing color theme and typography system"
+    "Do not add any authentication or identity checks — all commenting actions must work without login",
+    "Comment pins must be positioned using percentage-based x/y coordinates so they remain accurate at different image display sizes",
+    "Do not modify any files listed in frontend.immutablePaths"
   ],
   "nonGoals": [
-    "Changing the card layout from grid to list view",
-    "Modifying the status overview section at the top of the dashboard",
-    "Altering any backend code"
+    "Comment author identity or user names",
+    "Comment threading or replies",
+    "Comment editing (only add and delete)",
+    "Real-time comment sync across multiple browser sessions",
+    "Commenting on the dashboard thumbnail — only the full image in the detail view"
   ],
   "imageRequirements": {
     "required": [],

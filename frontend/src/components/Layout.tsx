@@ -1,11 +1,9 @@
 import { Outlet, Link, useNavigate } from '@tanstack/react-router';
 import { Button } from '@/components/ui/button';
 import { Plus } from 'lucide-react';
-import { useInternetIdentity } from '../hooks/useInternetIdentity';
 
 export function Layout() {
   const navigate = useNavigate();
-  const { identity, login, clear, isLoginSuccess } = useInternetIdentity();
 
   return (
     <div className="min-h-screen flex flex-col bg-background">
@@ -24,22 +22,13 @@ export function Layout() {
               </div>
             </Link>
             <div className="flex items-center gap-3">
-              {isLoginSuccess && identity ? (
-                <>
-                  <Button
-                    onClick={() => navigate({ to: '/create' })}
-                    className="gap-2"
-                  >
-                    <Plus className="w-4 h-4" />
-                    New Project
-                  </Button>
-                  <Button onClick={clear} variant="outline">
-                    Logout
-                  </Button>
-                </>
-              ) : (
-                <Button onClick={login}>Login</Button>
-              )}
+              <Button
+                onClick={() => navigate({ to: '/create' })}
+                className="gap-2"
+              >
+                <Plus className="w-4 h-4" />
+                New Project
+              </Button>
             </div>
           </div>
         </div>

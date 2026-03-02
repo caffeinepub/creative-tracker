@@ -94,10 +94,12 @@ export interface CreativeProject {
     status: ProjectStatus;
     title: string;
     creator: Principal;
+    commentIdCounter: bigint;
     amazonUploadTimestamp?: bigint;
     createdAt: Time;
     description: string;
     updatedAt: Time;
+    positionalComments: Array<PositionalComment>;
     completionTimestamp: bigint;
     images: Array<ExternalBlob>;
 }
@@ -108,6 +110,13 @@ export interface _CaffeineStorageRefillInformation {
 export interface _CaffeineStorageCreateCertificateResult {
     method: string;
     blob_hash: string;
+}
+export interface PositionalComment {
+    id: bigint;
+    xPercentage: number;
+    text: string;
+    timestamp: bigint;
+    yPercentage: number;
 }
 export interface _CaffeineStorageRefillResult {
     success?: boolean;
@@ -125,14 +134,17 @@ export interface backendInterface {
     _caffeineStorageCreateCertificate(blobHash: string): Promise<_CaffeineStorageCreateCertificateResult>;
     _caffeineStorageRefillCashier(refillInformation: _CaffeineStorageRefillInformation | null): Promise<_CaffeineStorageRefillResult>;
     _caffeineStorageUpdateGatewayPrincipals(): Promise<void>;
+    addPositionalComment(projectId: string, text: string, xPercentage: number, yPercentage: number): Promise<void>;
     createProject(id: string, title: string, description: string, completionTimestamp: bigint, amazonUploadTimestamp: bigint | null, images: Array<ExternalBlob>, status: ProjectStatus): Promise<void>;
+    deletePositionalComment(projectId: string, commentId: bigint): Promise<void>;
     deleteProject(id: string): Promise<void>;
     getAllProjects(): Promise<Array<CreativeProject>>;
+    getPositionalComments(projectId: string): Promise<Array<PositionalComment>>;
     getProject(id: string): Promise<CreativeProject>;
     getProjectsByCreator(creator: Principal): Promise<Array<CreativeProject>>;
     updateProject(id: string, title: string, description: string, completionTimestamp: bigint, amazonUploadTimestamp: bigint | null, images: Array<ExternalBlob>, status: ProjectStatus): Promise<void>;
 }
-import type { CreativeProject as _CreativeProject, ExternalBlob as _ExternalBlob, ProjectStatus as _ProjectStatus, Time as _Time, _CaffeineStorageRefillInformation as __CaffeineStorageRefillInformation, _CaffeineStorageRefillResult as __CaffeineStorageRefillResult } from "./declarations/backend.did.d.ts";
+import type { CreativeProject as _CreativeProject, ExternalBlob as _ExternalBlob, PositionalComment as _PositionalComment, ProjectStatus as _ProjectStatus, Time as _Time, _CaffeineStorageRefillInformation as __CaffeineStorageRefillInformation, _CaffeineStorageRefillResult as __CaffeineStorageRefillResult } from "./declarations/backend.did.d.ts";
 export class Backend implements backendInterface {
     constructor(private actor: ActorSubclass<_SERVICE>, private _uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, private _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, private processError?: (error: unknown) => never){}
     async _caffeineStorageBlobIsLive(arg0: Uint8Array): Promise<boolean> {
@@ -219,6 +231,20 @@ export class Backend implements backendInterface {
             return result;
         }
     }
+    async addPositionalComment(arg0: string, arg1: string, arg2: number, arg3: number): Promise<void> {
+        if (this.processError) {
+            try {
+                const result = await this.actor.addPositionalComment(arg0, arg1, arg2, arg3);
+                return result;
+            } catch (e) {
+                this.processError(e);
+                throw new Error("unreachable");
+            }
+        } else {
+            const result = await this.actor.addPositionalComment(arg0, arg1, arg2, arg3);
+            return result;
+        }
+    }
     async createProject(arg0: string, arg1: string, arg2: string, arg3: bigint, arg4: bigint | null, arg5: Array<ExternalBlob>, arg6: ProjectStatus): Promise<void> {
         if (this.processError) {
             try {
@@ -230,6 +256,20 @@ export class Backend implements backendInterface {
             }
         } else {
             const result = await this.actor.createProject(arg0, arg1, arg2, arg3, to_candid_opt_n8(this._uploadFile, this._downloadFile, arg4), await to_candid_vec_n9(this._uploadFile, this._downloadFile, arg5), to_candid_ProjectStatus_n11(this._uploadFile, this._downloadFile, arg6));
+            return result;
+        }
+    }
+    async deletePositionalComment(arg0: string, arg1: bigint): Promise<void> {
+        if (this.processError) {
+            try {
+                const result = await this.actor.deletePositionalComment(arg0, arg1);
+                return result;
+            } catch (e) {
+                this.processError(e);
+                throw new Error("unreachable");
+            }
+        } else {
+            const result = await this.actor.deletePositionalComment(arg0, arg1);
             return result;
         }
     }
@@ -259,6 +299,20 @@ export class Backend implements backendInterface {
         } else {
             const result = await this.actor.getAllProjects();
             return from_candid_vec_n13(this._uploadFile, this._downloadFile, result);
+        }
+    }
+    async getPositionalComments(arg0: string): Promise<Array<PositionalComment>> {
+        if (this.processError) {
+            try {
+                const result = await this.actor.getPositionalComments(arg0);
+                return result;
+            } catch (e) {
+                this.processError(e);
+                throw new Error("unreachable");
+            }
+        } else {
+            const result = await this.actor.getPositionalComments(arg0);
+            return result;
         }
     }
     async getProject(arg0: string): Promise<CreativeProject> {
@@ -327,10 +381,12 @@ async function from_candid_record_n15(_uploadFile: (file: ExternalBlob) => Promi
     status: _ProjectStatus;
     title: string;
     creator: Principal;
+    commentIdCounter: bigint;
     amazonUploadTimestamp: [] | [bigint];
     createdAt: _Time;
     description: string;
     updatedAt: _Time;
+    positionalComments: Array<_PositionalComment>;
     completionTimestamp: bigint;
     images: Array<_ExternalBlob>;
 }): Promise<{
@@ -338,10 +394,12 @@ async function from_candid_record_n15(_uploadFile: (file: ExternalBlob) => Promi
     status: ProjectStatus;
     title: string;
     creator: Principal;
+    commentIdCounter: bigint;
     amazonUploadTimestamp?: bigint;
     createdAt: Time;
     description: string;
     updatedAt: Time;
+    positionalComments: Array<PositionalComment>;
     completionTimestamp: bigint;
     images: Array<ExternalBlob>;
 }> {
@@ -350,10 +408,12 @@ async function from_candid_record_n15(_uploadFile: (file: ExternalBlob) => Promi
         status: from_candid_ProjectStatus_n16(_uploadFile, _downloadFile, value.status),
         title: value.title,
         creator: value.creator,
+        commentIdCounter: value.commentIdCounter,
         amazonUploadTimestamp: record_opt_to_undefined(from_candid_opt_n7(_uploadFile, _downloadFile, value.amazonUploadTimestamp)),
         createdAt: value.createdAt,
         description: value.description,
         updatedAt: value.updatedAt,
+        positionalComments: value.positionalComments,
         completionTimestamp: value.completionTimestamp,
         images: await from_candid_vec_n18(_uploadFile, _downloadFile, value.images)
     };

@@ -1,16 +1,20 @@
 {
   "schemaVersion": "1.0.0",
-  "projectStateVersion": 7,
-  "summary": "Website for creative team management at an Amazon marketing agency. Tracks creative work with completion dates, Amazon upload dates, and project status (Done, In Progress, Approval Pending). Allows uploading/viewing images of creatives. Dashboard provides overview of task counts by status. Requires classy, professional UI.",
+  "projectStateVersion": 13,
+  "summary": "Website for creative team management at an Amazon marketing agency. Tracks creative work with completion dates, Amazon upload dates, and project status (Done, In Progress, Approval Pending). Allows uploading/viewing images of creatives. Dashboard provides overview of task counts by status. Requires classy, professional UI. No login/authentication — fully public access. Supports positional/pinned commenting on creative images so reviewers can click exact locations on an image to leave feedback notes.",
   "architectural_notes": [
     "Website targeting creative team collaboration",
     "Focus on Amazon marketing agency workflow",
     "Two key dates per creative: completion date and Amazon upload date",
     "Image upload and display capability required",
     "Status tracking system with three predefined states: Done, In Progress, Approval Pending",
-    "Dashboard serves as main landing page with status count overview"
+    "Dashboard serves as main landing page with status count overview",
+    "No authentication required — website is fully public with open access",
+    "Positional comments stored per project with x/y coordinate percentages relative to image dimensions"
   ],
-  "known_issues": [],
+  "known_issues": [
+    "Project creation form does not save new projects when submitted — form submission logic or backend call is broken"
+  ],
   "isFixRequest": false,
   "existing_features": [
     {
@@ -84,6 +88,38 @@
         "REQ-12"
       ],
       "version": 1
+    },
+    {
+      "id": "feature-remove-internet-identity-authentication-from-the-application-the-site-must-be-fully-public-no-login-or-logout-controls-no-authentication-guards-and-no-unauthenticated-state-handling-all-pages-dashboard-project-detail-create-edit-must-be-accessible-to-anyone-without-logging-in",
+      "title": "Remove Internet Identity authentication from the application. The site must be fully public — no login or logout controls, no authentication guards, and no unauthenticated state handling. All pages (dashboard, project detail, create, edit) must be accessible to anyone without logging in.",
+      "reqIds": [
+        "REQ-13"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-react-query-hooks-in-frontend-src-hooks-usequeries-ts-for-the-two-new-backend-functions-addcomment-mutation-and-deletecomment-mutation-both-mutations-must-invalidate-the-affected-project-query-on-success",
+      "title": "Add React Query hooks in `frontend/src/hooks/useQueries.ts` for the two new backend functions: `addComment` (mutation) and `deleteComment` (mutation). Both mutations must invalidate the affected project query on success.",
+      "reqIds": [
+        "REQ-16"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-create-a-new-imagewithcomments-component-in-frontend-src-components-imagewithcomments-tsx-this-component-renders-a-project-image-and-overlays-positional-comment-pins-clicking-anywhere-on-the-image-opens-an-inline-text-input-at-the-clicked-location-allowing-the-user-to-type-a-comment-and-submit-it-drops-a-pin-at-that-x-y-position-as-a-percentage-of-image-width-height-each-pin-renders-as-a-small-subtle-circular-marker-by-default-each-pin-shows-a-short-truncated-preview-of-the-comment-text-on-hover-the-full-comment-text-expands-into-a-readable-tooltip-popover-each-comment-pin-includes-a-delete-button-visible-on-hover-that-removes-it-the-component-must-handle-multiple-simultaneous-pins-cleanly-so-the-image-remains-readable",
+      "title": "Create a new `ImageWithComments` component in `frontend/src/components/ImageWithComments.tsx`. This component renders a project image and overlays positional comment pins. Clicking anywhere on the image opens an inline text input at the clicked location, allowing the user to type a comment and submit it (drops a pin at that x/y position as a percentage of image width/height). Each pin renders as a small, subtle circular marker. By default, each pin shows a short truncated preview of the comment text. On hover, the full comment text expands into a readable tooltip/popover. Each comment pin includes a delete button (visible on hover) that removes it. The component must handle multiple simultaneous pins cleanly so the image remains readable.",
+      "reqIds": [
+        "REQ-17"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-integrate-the-imagewithcomments-component-into-frontend-src-pages-projectdetailpage-tsx-replace-the-current-static-image-display-with-imagewithcomments-for-each-project-image-passing-the-project-s-comments-and-the-add-delete-mutation-callbacks-the-rest-of-the-project-detail-layout-metadata-edit-delete-actions-must-remain-unchanged",
+      "title": "Integrate the `ImageWithComments` component into `frontend/src/pages/ProjectDetailPage.tsx`. Replace the current static image display with `ImageWithComments` for each project image, passing the project's comments and the add/delete mutation callbacks. The rest of the project detail layout (metadata, edit/delete actions) must remain unchanged.",
+      "reqIds": [
+        "REQ-18"
+      ],
+      "version": 1
     }
   ],
   "new_feature_requests": [
@@ -151,6 +187,34 @@
       "id": "AR-10",
       "summary": "Make project cards smaller/more compact with smaller thumbnails, tighter padding, and condensed text so more cards fit on screen",
       "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-11",
+      "summary": "Remove login/authentication (Internet Identity) and make the website fully public so anyone can access and view all creative projects without needing to log in",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-12",
+      "summary": "Fix the project creation flow so that when a user fills in all fields (title, description, completion date, Amazon upload date, status, and optional images) on the Create Project page and clicks the Create button, the new project is saved to the backend and the user is navigated back to the dashboard where the new project appears.",
+      "reqIds": [
+        "REQ-14"
+      ],
+      "status": "pending"
+    },
+    {
+      "id": "AR-13",
+      "summary": "Add positional commenting on creative images: users can click any location on an image to drop a comment pin at that x/y coordinate. Pins show subtle previews by default; hovering expands the full comment. Anyone can delete comments. No identity/auth required. Comments are stored per project with x/y position data.",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-14",
+      "summary": "Extend the backend CreativeProject data model to include a list of positional comments. Each comment must store: a unique ID, the comment text, x/y position as percentages of the image dimensions, and a timestamp. Implement backend functions to add a comment to a project and delete a comment by ID.",
+      "reqIds": [
+        "REQ-15"
+      ],
       "status": "pending"
     }
   ],

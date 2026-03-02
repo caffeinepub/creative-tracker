@@ -1,26 +1,58 @@
 {
   "kind": "implementation_plan",
   "version": "1.0",
-  "title": "Make project cards more compact",
+  "title": "Add positional commenting on creative images",
   "requirements": [
     {
-      "id": "REQ-12",
-      "summary": "Reduce the visual size of ProjectCard components by shrinking thumbnail height, reducing padding, condensing typography, and tightening spacing to fit more cards on screen",
+      "id": "REQ-16",
+      "summary": "Add React Query mutation hooks for adding and deleting positional comments",
       "acceptanceCriteria": [
-        "The thumbnail/placeholder area height is noticeably reduced compared to the current version (e.g., from ~230px tall to ~120px or less)",
-        "Card internal padding is tighter so cards take up less vertical and horizontal space",
-        "Title font size is reduced while remaining legible",
-        "Description text is capped at fewer lines (1–2 lines max) with ellipsis overflow",
-        "Date rows (Completion and Amazon Upload) are more compact with reduced spacing between them",
-        "At least 3–4 cards are visible per row on a standard desktop viewport",
-        "Status badge remains visible and correctly positioned on each card",
-        "Clicking a card still navigates to the project detail page"
+        "`useAddComment` mutation hook calls the backend `addComment` and invalidates the project detail query on success",
+        "`useDeleteComment` mutation hook calls the backend `deleteComment` and invalidates the project detail query on success"
       ],
       "file_operations": [
         {
-          "path": "frontend/src/components/ProjectCard.tsx",
+          "path": "frontend/src/hooks/useQueries.ts",
           "operation": "modify",
-          "description": "Reduce the thumbnail/placeholder image area height from the current tall placeholder to approximately 120px or less. Reduce card internal padding (e.g., from p-4 to p-2 or p-3). Condense the title font size while maintaining legibility (e.g., reduce from text-xl to text-lg or text-base). Limit description text to 1–2 lines maximum with ellipsis overflow using line-clamp. Tighten spacing between the completion date and Amazon upload date rows by reducing gap or margin values. Ensure the status badge position remains unchanged and the card click behavior continues to navigate to the project detail page."
+          "description": "Add two new mutation hooks: `useAddPositionalComment` that accepts projectId, text, xPercentage, and yPercentage and calls backend.addPositionalComment, and `useDeletePositionalComment` that accepts projectId and commentId and calls backend.deletePositionalComment. Both mutations must invalidate the project detail query (queryKey: ['project', projectId]) on success to trigger a UI refresh with updated comments."
+        }
+      ]
+    },
+    {
+      "id": "REQ-17",
+      "summary": "Create ImageWithComments component for interactive positional commenting on project images",
+      "acceptanceCriteria": [
+        "Clicking on the image (not on an existing pin) opens an inline input at that position",
+        "Submitting the input calls `useAddComment` with the correct x/y percentages",
+        "Pressing Escape or clicking away cancels the new comment input without saving",
+        "Each comment pin is visually subtle (small circle marker) when not hovered",
+        "Hovering a pin expands it to display the full comment text in a readable tooltip/popover",
+        "A delete icon appears on hover; clicking it calls `useDeleteComment` and removes the pin",
+        "When multiple pins exist, only the hovered pin is fully expanded; others remain in subtle state",
+        "Pin positions are stable across re-renders (stored as percentage of image dimensions)"
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/components/ImageWithComments.tsx",
+          "operation": "create",
+          "description": "Create a new component that renders a project image (using ExternalBlob.getDirectURL() for the image src) in a container with position:relative. On click events, calculate x/y percentages relative to the image element dimensions and open an inline text input at that position. The input should appear as a small form with a text field and submit/cancel buttons positioned absolutely at the click coordinates. Render existing comments (from props) as absolutely positioned pin markers, each showing a subtle circular indicator with truncated text preview by default. On hover, expand the pin to show full comment text in a tooltip/popover (using shadcn/ui Popover or Tooltip component). Include a small delete button (X icon) visible on hover that calls the onDeleteComment callback with the comment ID. Use state to manage the new comment input visibility and position. Handle Escape key and click-away events to cancel input. Accept props: imageUrl (string from ExternalBlob.getDirectURL()), comments (array of PositionalComment from backend interface), onAddComment callback, and onDeleteComment callback. Ensure multiple pins remain subtle until individually hovered, keeping the image clean and readable."
+        }
+      ]
+    },
+    {
+      "id": "REQ-18",
+      "summary": "Integrate ImageWithComments component into the project detail page",
+      "acceptanceCriteria": [
+        "Project detail page renders each project image inside the `ImageWithComments` component",
+        "Comments loaded from the project data are displayed as pins on the correct image",
+        "Adding and deleting comments updates the UI immediately via query invalidation",
+        "All existing project detail functionality (metadata display, edit button, delete button) remains intact"
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/pages/ProjectDetailPage.tsx",
+          "operation": "modify",
+          "description": "Replace the current image display logic with the new ImageWithComments component. For each image in project.images, render ImageWithComments passing imageUrl from blob.getDirectURL(), the project.positionalComments array, and callbacks using the useAddPositionalComment and useDeletePositionalComment mutation hooks from useQueries.ts. Wire the mutation callbacks to pass projectId from the route params. Keep all existing metadata display, edit button, delete button, and delete confirmation dialog unchanged. Ensure the image section integrates cleanly with the existing layout and styling."
         }
       ]
     }

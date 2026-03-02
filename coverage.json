@@ -1,35 +1,71 @@
 {
   "kind": "coverage_report",
   "version": "1.0",
-  "generatedAt": "2026-02-24T11:12:30.729Z",
+  "generatedAt": "2026-02-24T12:36:17.320Z",
   "sources": {
     "buildRequest": true,
     "implementationPlan": true
   },
   "requirements": {
-    "total": 1,
-    "implemented": 1,
+    "total": 4,
+    "implemented": 3,
     "items": [
       {
-        "id": "REQ-12",
-        "summary": "Reduce the visual size of ProjectCard components so more cards fit on screen at once. Specifically: shrink the thumbnail/placeholder image area height (from the current tall placeholder to a much shorter one), reduce internal padding throughout the card, condense the title font size, shorten the description text area, and tighten spacing between the date rows. The status badge position and card click behavior must remain unchanged.",
+        "id": "REQ-15",
+        "summary": "Extend the backend CreativeProject data model to include a list of positional comments. Each comment must store: a unique ID, the comment text, x/y position as percentages of the image dimensions, and a timestamp. Implement backend functions to add a comment to a project and delete a comment by ID.",
+        "status": "unknown",
+        "plannedFiles": [],
+        "matchedFiles": []
+      },
+      {
+        "id": "REQ-16",
+        "summary": "Add React Query hooks in `frontend/src/hooks/useQueries.ts` for the two new backend functions: `addComment` (mutation) and `deleteComment` (mutation). Both mutations must invalidate the affected project query on success.",
         "status": "implemented",
         "plannedFiles": [
-          "frontend/src/components/ProjectCard.tsx"
+          "frontend/src/hooks/useQueries.ts"
         ],
         "matchedFiles": [
-          "frontend/src/components/ProjectCard.tsx"
+          "frontend/src/hooks/useQueries.ts"
+        ]
+      },
+      {
+        "id": "REQ-17",
+        "summary": "Create a new `ImageWithComments` component in `frontend/src/components/ImageWithComments.tsx`. This component renders a project image and overlays positional comment pins. Clicking anywhere on the image opens an inline text input at the clicked location, allowing the user to type a comment and submit it (drops a pin at that x/y position as a percentage of image width/height). Each pin renders as a small, subtle circular marker. By default, each pin shows a short truncated preview of the comment text. On hover, the full comment text expands into a readable tooltip/popover. Each comment pin includes a delete button (visible on hover) that removes it. The component must handle multiple simultaneous pins cleanly so the image remains readable.",
+        "status": "implemented",
+        "plannedFiles": [
+          "frontend/src/components/ImageWithComments.tsx"
+        ],
+        "matchedFiles": [
+          "frontend/src/components/ImageWithComments.tsx"
+        ]
+      },
+      {
+        "id": "REQ-18",
+        "summary": "Integrate the `ImageWithComments` component into `frontend/src/pages/ProjectDetailPage.tsx`. Replace the current static image display with `ImageWithComments` for each project image, passing the project's comments and the add/delete mutation callbacks. The rest of the project detail layout (metadata, edit/delete actions) must remain unchanged.",
+        "status": "implemented",
+        "plannedFiles": [
+          "frontend/src/pages/ProjectDetailPage.tsx"
+        ],
+        "matchedFiles": [
+          "frontend/src/pages/ProjectDetailPage.tsx"
         ]
       }
     ]
   },
   "changedFiles": [
+    "backend/main.mo",
+    "backend/migration.mo",
     "build-request.json",
-    "caffeine.lock.json",
     "feature_evidence.json",
     "frontend-file-summaries.txt",
     "frontend-implementation-plan.json",
-    "frontend/src/components/ProjectCard.tsx",
+    "frontend/src/backend.d.ts",
+    "frontend/src/backend.ts",
+    "frontend/src/components/ImageWithComments.tsx",
+    "frontend/src/declarations/backend.did.d.ts",
+    "frontend/src/declarations/backend.did.js",
+    "frontend/src/hooks/useQueries.ts",
+    "frontend/src/pages/ProjectDetailPage.tsx",
     "project_state.json",
     "scratch/component-selection.json",
     "spec.md",
